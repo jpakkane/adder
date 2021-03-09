@@ -21,37 +21,12 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#pragma once
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if defined _WIN32 || defined __CYGWIN__
-  #if defined BUILDING_ADDER
-    #define DLL_PUBLIC __declspec(dllexport)
-  #else
-    #define DLL_PUBLIC __declspec(dllimport)
-  #endif
-#else
-  #if defined __GNUC__
-    #if defined BUILDING_ADDER
-      #define DLL_PUBLIC __attribute__ ((visibility("default")))
-    #else
-      #define DLL_PUBLIC
-    #endif
-  #else
-    #pragma message ("Compiler does not support symbol visibility.")
-    #define DLL_PUBLIC
-  #endif
-#endif
-
-typedef struct _Adder adder;
-
-DLL_PUBLIC extern adder*  adder_create(int number);
-DLL_PUBLIC extern int  adder_add(adder *a, int number);
-DLL_PUBLIC extern void  adder_destroy(adder*);
-
-#ifdef __cplusplus
+#[repr(C)]
+pub struct Adder {
+  pub number: i32
 }
-#endif
+
+#[no_mangle]
+pub extern fn adder_add(a: &Adder, number: i32) -> i32 {
+    return a.number + number;
+}

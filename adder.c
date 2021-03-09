@@ -34,9 +34,7 @@ adder* adder_create(int number) {
     return a;
 }
 
-int adder_add(adder *a, int number) {
-    return a->number + number;
-}
+// adder_add is implemented in the Rust file.
 
 void adder_destroy(adder *a) {
     free(a);
